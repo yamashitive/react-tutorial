@@ -60,10 +60,11 @@ const Game = () => {
       return;
     }
     squares[i] = xIsNext ? 'X' : 'O';
-
+    
     setHistory(
       clickedHistory.concat([{
         squares: squares,
+        squareNum: i,
       }])
     );
     setStepNumber(clickedHistory.length);
@@ -75,9 +76,40 @@ const Game = () => {
     setXIsNext(step % 2 === 0);
   }
 
+  const calcColRow = (i) => {
+    let colNum;
+    let rowNum;
+
+    const colGroups = [
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8]
+    ];
+    const rowGroups = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8]
+    ];
+
+    colGroups.map((arr, index) => {
+      if(arr.indexOf(i) !== -1) {
+        colNum = index + 1;
+      }
+    })
+
+    rowGroups.map((arr, index) => {
+      if(arr.indexOf(i) !== -1) {
+        rowNum = index +1;
+      }
+    })
+
+    return `( Col:${colNum}, Row:${rowNum} )`;
+  }
+
   const moves = history.map((step, move) => {
+    const clickedSquare = calcColRow(step.squareNum);
     const desc = move ?
-      'Go to move #' + move :
+      `Go to move #${move} ${clickedSquare}`:
       'Go to game start';
 
     return (
