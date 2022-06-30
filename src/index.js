@@ -18,27 +18,34 @@ const Board = (props) => {
       <Square 
         value={squares[i]}
         onClick={() => onClick(i)}
+        key={i}
       />
     );
   }
 
+  const renderBoadRow = (i) => {
+    return (
+      <div className="board-row" key={i}>
+        {(() => {
+          const arr = [];
+          for(let j = 0; j < 3; j++) {
+            arr.push(renderSquare(j+i*3));
+          }
+          return arr;
+        })()}
+      </div>
+    )
+  }
+
   return (
     <div>
-      <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-      </div>
-      <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
+      {(() => {
+        const arr = [];
+        for(let i = 0; i < 3; i++) {
+          arr.push(renderBoadRow(i));
+        }
+        return arr;
+      })()}
     </div>
   );
 }
@@ -111,8 +118,6 @@ const Game = () => {
     const desc = move ?
       `Go to move #${move} ${clickedSquare}`:
       'Go to game start';
-
-    console.log(stepNumber, move)
 
     return (
       <li key={move}>
