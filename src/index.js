@@ -112,9 +112,13 @@ const Game = () => {
       `Go to move #${move} ${clickedSquare}`:
       'Go to game start';
 
+    console.log(stepNumber, move)
+
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{desc}</button>
+        <button onClick={() => jumpTo(move)}>
+          {stepNumber === move ? <b>{desc}</b> : desc}
+        </button>
       </li>
     );
   });
