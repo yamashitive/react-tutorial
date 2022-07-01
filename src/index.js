@@ -3,22 +3,37 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 const Square = (props) => {
+  const {value, onClick, isWinSquare} = props;
+
   return (
-    <button className="square" onClick={props.onClick}>
-      {props.value}
+    <button 
+      className="square"
+      style={{backgroundColor: isWinSquare ? 'lime' : 'white'}}
+      onClick={onClick}
+    >
+      {value}
+      {console.log(value, isWinSquare)}
     </button>
   );
 }
 
 const Board = (props) => {
-  const {squares, onClick} = props;
+  const {squares, onClick, winLine} = props;
 
   const renderSquare = (i) => {
+    let isWinSquare;
+    if (winLine) {
+      isWinSquare = winLine.indexOf(i) !== -1 ? true : false;
+    } else {
+      isWinSquare = null;
+    }
+
     return (
       <Square 
         value={squares[i]}
         onClick={() => onClick(i)}
         key={i}
+        isWinSquare={isWinSquare}
       />
     );
   }
@@ -57,7 +72,9 @@ const Game = () => {
   const [isHistoryAsc, setIsHistoryAsc] = useState(true);
 
   const current = history[stepNumber];
-  const winner = calculateWinner(current.squares);
+  const result = calculateWinner(current.squares);
+  const winner = result ? result.winner : null ;
+  const winLine = result ? result.line : null ;
 
   const handleClick = (i) => {
     const clickedHistory = history.slice(0, stepNumber + 1);
@@ -148,6 +165,7 @@ const Game = () => {
         <Board
           squares={current.squares}
           onClick={(i) => handleClick(i)}
+          winLine={winLine}
         />
       </div>
       <div className="game-info">
@@ -173,7 +191,10 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return {
+        winner: squares[a],
+        line: lines[i]
+      }
     }
   }
   return null;
