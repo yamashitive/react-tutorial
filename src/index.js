@@ -54,6 +54,7 @@ const Game = () => {
   const [history, setHistory] = useState([{squares: Array(9).fill(null)}]);
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
+  const [isHistoryAsc, setIsHistoryAsc] = useState(true);
 
   const current = history[stepNumber];
   const winner = calculateWinner(current.squares);
@@ -113,6 +114,10 @@ const Game = () => {
     return `( Col:${colNum}, Row:${rowNum} )`;
   }
 
+  const handleReverse = () => {
+    setIsHistoryAsc(!isHistoryAsc);
+  }
+
   const moves = history.map((step, move) => {
     const clickedSquare = calcColRow(step.squareNum);
     const desc = move ?
@@ -127,6 +132,8 @@ const Game = () => {
       </li>
     );
   });
+
+  const sortedMoves = isHistoryAsc ? [...moves].reverse() : [...moves];
 
   let status;
   if (winner) {
@@ -145,7 +152,8 @@ const Game = () => {
       </div>
       <div className="game-info">
         <div>{status}</div>
-        <ol>{moves}</ol>
+        <ol reversed={isHistoryAsc ? 'reversed' : ''}>{sortedMoves}</ol>
+        <button onClick={() => handleReverse()}>reverse</button>
       </div>
     </div>
   );
