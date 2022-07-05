@@ -1,11 +1,12 @@
 import {useState} from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Board from './Board'
 import { calculateWinner } from '../libs';
 
 const Game = () => {
   const count = useSelector((state) => state.game.count);
+  const dispatch = useDispatch();
 
   const [history, setHistory] = useState([{squares: Array(9).fill(null)}]);
   const [stepNumber, setStepNumber] = useState(0);
@@ -115,7 +116,10 @@ const Game = () => {
         <div>{status}</div>
         <ol reversed={isHistoryAsc ? 'reversed' : ''}>{sortedMoves}</ol>
         <button onClick={() => handleReverse()}>reverse</button>
+
         <p>{count}</p>
+        <button onClick={() => dispatch({ type: "INCREASE_COUNT" })}>Up</button>
+        <button onClick={() => dispatch({ type: "DECREASE_COUNT" })}>Down</button>
       </div>
     </div>
   );
