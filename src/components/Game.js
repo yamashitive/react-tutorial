@@ -1,9 +1,10 @@
 import {useState} from 'react';
+import { connect } from "react-redux";
 
 import Board from './Board'
 import { calculateWinner } from '../libs';
 
-const Game = () => {
+const Game = ({count}) => {
   const [history, setHistory] = useState([{squares: Array(9).fill(null)}]);
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
@@ -112,9 +113,15 @@ const Game = () => {
         <div>{status}</div>
         <ol reversed={isHistoryAsc ? 'reversed' : ''}>{sortedMoves}</ol>
         <button onClick={() => handleReverse()}>reverse</button>
+        <p>{count}</p>
       </div>
     </div>
   );
 }
 
-export default Game;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return { count: state.game.count };
+};
+
+export default connect(mapStateToProps)(Game);
