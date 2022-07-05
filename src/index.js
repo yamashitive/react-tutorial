@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+
+import store from './store';
+
 import './index.css';
 
 const Square = (props) => {
@@ -205,4 +209,8 @@ function calculateWinner(squares) {
 // ========================================
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<Game />);
+root.render(
+  <Provider store={store}> 
+    <Game />
+  </Provider>
+);
