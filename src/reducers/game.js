@@ -1,5 +1,5 @@
 const initialState = {
-  count: 1,
+  count: 100,
 };
 
 const gameReducer = (state = initialState) => {

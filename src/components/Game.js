@@ -1,10 +1,12 @@
 import {useState} from 'react';
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Board from './Board'
 import { calculateWinner } from '../libs';
 
-const Game = ({count}) => {
+const Game = () => {
+  const count = useSelector((state) => state.game.count);
+
   const [history, setHistory] = useState([{squares: Array(9).fill(null)}]);
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXIsNext] = useState(true);
@@ -119,9 +121,4 @@ const Game = ({count}) => {
   );
 }
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return { count: state.game.count };
-};
-
-export default connect(mapStateToProps)(Game);
+export default Game;
