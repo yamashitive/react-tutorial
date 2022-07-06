@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import { useSelector, useDispatch } from "react-redux";
 
 import Board from './Board'
@@ -18,7 +18,7 @@ const Game = () => {
   const winner = result ? result.winner : null ;
   const winLine = result ? result.line : null ;
 
-  const handleClick = (i) => {
+  const handleClick = useCallback((i) => {
     const clickedHistory = history.slice(0, stepNumber + 1);
     const current = clickedHistory[clickedHistory.length - 1];
     const squares = current.squares.slice();
@@ -36,7 +36,7 @@ const Game = () => {
     );
     setStepNumber(clickedHistory.length);
     setXIsNext(!xIsNext);
-  }
+  },[history, stepNumber, xIsNext])
 
   const jumpTo = (step) => {
     setStepNumber(step);
@@ -73,9 +73,9 @@ const Game = () => {
     return `( Col:${colNum}, Row:${rowNum} )`;
   }
 
-  const handleReverse = () => {
+  const handleReverse = useCallback(() => {
     setIsHistoryAsc(!isHistoryAsc);
-  }
+  },[isHistoryAsc])
 
   const moves = history.map((step, move) => {
     const clickedSquare = calcColRow(step.squareNum);
