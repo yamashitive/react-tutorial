@@ -4,12 +4,7 @@ const Board = (props) => {
   const {squares, onClick, winLine} = props;
 
   const renderSquare = (i) => {
-    let isWinSquare;
-    if (winLine) {
-      isWinSquare = winLine.indexOf(i) !== -1 ? true : false;
-    } else {
-      isWinSquare = null;
-    }
+    const isWinSquare = winLine && winLine.some(winSquare => winSquare ===  i);
 
     return (
       <Square 
