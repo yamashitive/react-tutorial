@@ -25,11 +25,11 @@ const Board = (props) => {
     return (
       <div className="board-row" key={i}>
         {(() => {
-          const arr = [];
+          const cols = [];
           for(let j = 0; j < 3; j++) {
-            arr.push(renderSquare(j+i*3));
+            cols.push(renderSquare(j+i*3));
           }
-          return arr;
+          return cols;
         })()}
       </div>
     )
@@ -38,11 +38,11 @@ const Board = (props) => {
   return (
     <div>
       {(() => {
-        const arr = [];
+        const rows = [];
         for(let i = 0; i < 3; i++) {
-          arr.push(renderBoadRow(i));
+          rows.push(renderBoadRow(i));
         }
-        return arr;
+        return rows;
       })()}
     </div>
   );
